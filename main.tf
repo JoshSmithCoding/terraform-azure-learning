@@ -1,4 +1,4 @@
-# Learn: "Terraform init" to initialise the back-end
+# Learning: "Terraform init" to initialise the back-end
 terraform {
   required_providers {
     azurerm = {
@@ -14,3 +14,11 @@ provider "azurerm" {
   }
 }
 
+# Learning: Terraform specific alias
+resource "azurerm_resource_group" "mtc-rg" {
+  name     = "mtc-resources"
+  location = "uksouth"
+  tags = {
+    environment = "dev"
+  }
+}
