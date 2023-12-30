@@ -62,7 +62,7 @@ resource "azurerm_network_security_rule" "mtc-dev-rule" {
   protocol               = "*"
   source_port_range      = "*"
   destination_port_range = "*"
-  # The /32 represents the subnet mask, indicating that there is only a single IP address in the network, and it is not part of a subnet.
+  # Learning: The /32 represents the subnet mask, indicating that there is only a single IP address in the network, and it is not part of a subnet.
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.mtc-rg.name
@@ -79,6 +79,24 @@ resource "azurerm_public_ip" "mtc-ip" {
   location            = azurerm_resource_group.mtc-rg.location
   resource_group_name = azurerm_resource_group.mtc-rg.name
   allocation_method   = "Dynamic"
+
+  tags = {
+    environment = "dev"
+  }
+}
+
+# Learning: Command combo 1) terraform state list -> 2) terraform state show <full-resource>
+resource "azurerm_network_interface" "mtc-nic" {
+  name                = "mtc-nic"
+  location            = azurerm_resource_group.mtc-rg.location
+  resource_group_name = azurerm_resource_group.mtc-rg.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.mtc-subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.mtc-ip.id
+  }
 
   tags = {
     environment = "dev"
