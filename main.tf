@@ -111,6 +111,9 @@ resource "azurerm_linux_virtual_machine" "mtc-vm" {
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.mtc-nic.id]
 
+  # Custom data field for Azure expects base 64.
+  custom_data = filebase64("customdata.tpl")
+
   admin_ssh_key {
     username = "adminuser"
     # File function reads a file and substitutes its contents for the value
