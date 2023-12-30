@@ -78,7 +78,7 @@ resource "azurerm_public_ip" "mtc-ip" {
   name                = "mtc-ip"
   location            = azurerm_resource_group.mtc-rg.location
   resource_group_name = azurerm_resource_group.mtc-rg.name
-  allocation_method   = "Static"
+  allocation_method   = "Dynamic"
 
   tags = {
     environment = "dev"
